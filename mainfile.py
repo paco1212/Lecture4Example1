@@ -21,9 +21,9 @@ class SecretClubForm(FlaskForm):
     passcode = StringField("What is the secret code to enter the secret society? Must not have any vowels.",validators=[Required()]) # Required, plus the below validator...
 
     def validate_passcode(self, field):
-        ## Replace
-        ## With code here -- I had 2 lines
-        for ch in "hello": # temp code to replace
+        ## Replace comments w code here...
+        ## With code here -- I had 2 lines above the code already provided to make it so that this validator would reject anything with vowels. Could also do it in 1 line.
+        for ch in "hello": # REPLACE THIS LINE WITH SOMETHING ELSE
             if ch in vowels:
                 raise ValidationError("Your passcode was not valid because there was at least 1 vowel in it.")
 
