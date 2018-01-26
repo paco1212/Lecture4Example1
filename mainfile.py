@@ -19,11 +19,12 @@ class SecretClubForm(FlaskForm):
     name = StringField("Enter the name of your secret club:", validators=[Required(),Length(3,64)]) # Must be at least 3 and no more than 64 chars
     number_members = StringField("How many people may be in this secret club (must enter an integer):", validators=[Required(),Regexp('^\d+$')]) # Validated with a regular expression: only digits
     passcode = StringField("What is the secret code to enter the secret society? Must not have any vowels.",validators=[Required()]) # Required, plus the below validator...
+    submit = SubmitField('Submit')
 
     def validate_passcode(self, field):
-        ## Replace comments w code here...
-        ## With code here -- I had 2 lines above the code already provided to make it so that this validator would reject anything with vowels. Could also do it in 1 line.
-        for ch in "hello": # REPLACE THIS LINE WITH SOMETHING ELSE
+        vowels = ['a','e','o','i','u']
+        passcode = field.data
+        for ch in passcode: # REPLACE THIS LINE WITH SOMETHING ELSE
             if ch in vowels:
                 raise ValidationError("Your passcode was not valid because there was at least 1 vowel in it.")
 
@@ -38,9 +39,10 @@ def hello_world():
 @app.route('/form')
 def form_entry():
     form = SecretClubForm()
+    return render_template('form.html', form = form)
 
 
-@app.route('/answers')
+@app.route('/answers', methods = ['POST', 'GET']) 
 def show_answers():
     form = SecretClubForm()
     if form.validate_on_submit():
@@ -50,6 +52,7 @@ def show_answers():
         return render_template('results.html',name=name,passcode=passcode,capacity=capacity)
     flash(form.errors)
     return redirect(url_for('form_entry'))
+
 
 if __name__ == "__main__":
     app.run(use_reloader=True,debug=True)
