@@ -19,6 +19,7 @@
   <form action="{{url_for('show_answers')}}" method="POST">
     {{ form.hidden_tag() }}
     {{ form.name.label }} {{ form.name() }}<br>
+    {{ form.email.label }} {{ form.email()}} <br>
     {{ form.number_members.label }} {{ form.number_members() }}<br>
     {{ form.passcode.label }} {{ form.passcode() }}<br>
     {{ form.submit() }}<br>

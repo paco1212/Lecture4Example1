@@ -19,6 +19,7 @@ class SecretClubForm(FlaskForm):
     name = StringField("Enter the name of your secret club:", validators=[Required(),Length(3,64)]) # Must be at least 3 and no more than 64 chars
     number_members = StringField("How many people may be in this secret club (must enter an integer):", validators=[Required(),Regexp('^\d+$')]) # Validated with a regular expression: only digits
     passcode = StringField("What is the secret code to enter the secret society? Must not have any vowels.",validators=[Required()]) # Required, plus the below validator...
+    email = StringField('Enter the email for the club', validators = [Required(), Email()])
     submit = SubmitField('Submit')
 
     def validate_passcode(self, field):
@@ -49,7 +50,8 @@ def show_answers():
         name = form.name.data
         passcode = form.passcode.data
         capacity = form.number_members.data
-        return render_template('results.html',name=name,passcode=passcode,capacity=capacity)
+        email = form.email.data
+        return render_template('results.html',name=name,passcode=passcode,capacity=capacity, email = email)
     flash(form.errors)
     return redirect(url_for('form_entry'))
 
